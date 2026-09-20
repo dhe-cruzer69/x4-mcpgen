@@ -1,15 +1,34 @@
 [project]
 name = "x4-mcpgen"
 version = "0.1.0"
-description = "Generate tested, secure MCP server scaffolds"
+description = "Generate secure-by-default MCP server scaffolds"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
+authors = [{ name = "ARIEX4Ops" }]
+keywords = ["mcp", "generator", "agent", "x4"]
 dependencies = []
+
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.6"]
+dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.10"]
+
 [project.scripts]
 x4-mcpgen = "x4_mcpgen.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/dhe-cruzer69/x4-mcpgen"
+Repository = "https://github.com/dhe-cruzer69/x4-mcpgen"
+
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
