@@ -1,0 +1,3 @@
+# Contributing
+
+Keep generators deterministic.

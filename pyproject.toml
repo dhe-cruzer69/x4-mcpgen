@@ -1,0 +1,15 @@
+[project]
+name = "x4-mcpgen"
+version = "0.1.0"
+description = "Generate tested, secure MCP server scaffolds"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = []
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+[project.scripts]
+x4-mcpgen = "x4_mcpgen.cli:main"
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
