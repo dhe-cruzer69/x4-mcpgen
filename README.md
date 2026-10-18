@@ -58,6 +58,25 @@ my-mcp/
 └── .github/workflows/ci.yml
 ```
 
+
+## Architecture — Mermaid scope map
+
+```mermaid
+flowchart TD
+    SPEC[Tool Definitions] --> VALID[Validate Configuration]
+    VALID --> GEN[Generate MCP Project]
+    GEN --> SRC[Server and Tool Modules]
+    GEN --> TEST[Generated Tests]
+    GEN --> POLICY[Allow-list and stdio-first Config]
+    GEN --> DOCS[Security Docs and License]
+    GEN --> CI[CI and Container Files]
+    SRC --> CHECK[Validate and Test Generated Project]
+    TEST --> CHECK
+    POLICY --> CHECK
+    DOCS --> CHECK
+    CI --> CHECK
+```
+
 ## License
 
 Apache-2.0
