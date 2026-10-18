@@ -80,3 +80,25 @@ flowchart TD
 ## License
 
 Apache-2.0
+
+## APEX Architecture Map
+
+> Status: architecture documentation; implementation and deployment claims require independent verification.
+
+```mermaid
+flowchart LR
+  Source[Canonical tool contract] --> Normalize[Normalize names and types]
+  Normalize --> Validate[Validate schema constraints]
+  Validate -->|invalid| Diagnostics[Actionable schema errors]
+  Validate -->|valid| Generate[Generate protocol schema artifacts]
+  Generate --> Determinism{Repeat generation identical?}
+  Determinism -->|no| Fail[Fail determinism test]
+  Determinism -->|yes| Fixtures[Update or compare golden fixtures]
+  Fixtures --> Consumer[Compile / validate sample consumer]
+  Consumer --> Compat{Breaking change detected?}
+  Compat -->|yes| Major[Require explicit version bump]
+  Compat -->|no| Package[Package generated artifacts]
+  Package --> Provenance[Record generator and input version]
+```
+**Evidence note:** Deterministic output, compatibility checks, and consumer validation are proposed quality gates; verify they exist before claiming code generation is production-safe.
+
