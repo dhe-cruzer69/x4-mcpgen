@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from x4_mcpgen.cli import main
 from x4_mcpgen.generator import generate_server
 from x4_mcpgen.validate import validate_scaffold
-from x4_mcpgen.cli import main
 
 
 def test_generate_and_validate(tmp_path: Path) -> None:
