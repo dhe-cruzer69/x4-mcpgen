@@ -15,21 +15,32 @@ concurrency:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install -e ".[dev]"
+          cache: pip
+
+      - run: python -m pip install -e ".[dev]"
+
       - run: ruff check .
+
       - run: mypy src --ignore-missing-imports
+
       - run: pytest -q
+
       - name: Generate + validate smoke
+        env:
+          SMOKE_ROOT: ${{ runner.temp }}
         run: |
-          x4-mcpgen init smoke-test --tools 1 --out /tmp
-          x4-mcpgen validate /tmp/smoke-test
+          python -c "import os, subprocess, sys; from pathlib import Path; root=Path(os.environ['SMOKE_ROOT']); out=root/'smoke-test'; subprocess.run(['x4-mcpgen','init','smoke-test','--tools','1','--out',str(root)],check=True); subprocess.run(['x4-mcpgen','validate',str(out)],check=True)"
